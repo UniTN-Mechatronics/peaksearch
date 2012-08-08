@@ -16,17 +16,17 @@ Initialize a PeakSearch structure with the algorithm parameters:
     ps.win_size = 4;
     ps.data_s = 20;
     ps.data_v = (float*) malloc(ps.data_s * sizeof(float));
-    float d[20] = {1,1,2,1,2,30,32,8,2,1,1,1,2,1,2,2,1,3,1,1};
+    data_t d[20] = {1,1,2,1,2,30,32,8,2,1,1,1,2,1,2,2,1,3,1,1};
     ps.data_v = d;
 
 Initialize a result vector (it will contain the peaks indexes); it will be
 resized as needed:
 
-    u_int16_t *peaks = (u_int16_t*) malloc(1 * sizeof(u_int16_t));
+    index_t *peaks = (index_t*) malloc(1 * sizeof(index_t));
 
 Perform the search:
 
-    u_int16_t count = search_peaks(&ps, &peaks);
+    index_t count = search_peaks(&ps, &peaks);
 
 Remember to `free()` the `peaks` array at the end:
 
