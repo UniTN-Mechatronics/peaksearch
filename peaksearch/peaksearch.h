@@ -13,8 +13,8 @@
 #include <stdlib.h>
 #include <math.h>
 
-#define FULL    0
-#define PARTIAL 1
+// Whenever the output array gets full, it is expanded by this quantity:
+#define CHUNK_SIZE 10
 
 // Types for data and indexes:
 typedef float     data_t;
@@ -28,23 +28,6 @@ struct PeakSearch {
   index_t  win_size; // moving windows size
   data_t   stdev;    // search_peaks() will put here the overal st.dev.
 };
-
-
-// FOR INTERNAL USE
-struct Statistics {
-  data_t  mean;
-  data_t  sd;
-  data_t  max;
-  index_t max_idx;
-};
-
-// FOR INTERNAL USE
-data_t
-mean(struct PeakSearch *ps, const index_t start, const index_t end);
-
-// FOR INTERNAL USE
-void
-statistics(struct PeakSearch *ps, const index_t start, char const type, struct Statistics *stat);
 
 // Performs the peak search on the data and according to the parameters in ps.
 // The indexes of found peaks are returned in peaks_v.

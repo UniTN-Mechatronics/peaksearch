@@ -7,7 +7,15 @@
 //
 
 #include "peaksearch.h"
-#define CHUNK_SIZE 10
+#define FULL    0
+#define PARTIAL 1
+
+struct Statistics {
+  data_t  mean;
+  data_t  sd;
+  data_t  max;
+  index_t max_idx;
+};
 
 data_t
 mean(struct PeakSearch *ps, const index_t start, const index_t end)
