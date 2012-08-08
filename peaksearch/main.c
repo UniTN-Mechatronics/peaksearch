@@ -30,6 +30,7 @@ int main(int argc, const char * argv[])
   for (i=0; i<count; i++) {
     printf("peak %d: point %d, value %f\n", i, peaks[i], ps.data_v[peaks[i]]);
   }
+  free(peaks);
   return 0;
 }
 

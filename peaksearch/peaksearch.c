@@ -7,6 +7,7 @@
 //
 
 #include "peaksearch.h"
+#define CHUNK_SIZE 10
 
 data_t
 mean(struct PeakSearch *ps, const index_t start, const index_t end)
@@ -48,10 +49,11 @@ index_t
 search_peaks(struct PeakSearch *ps, index_t **peaks_v)
 {
   index_t count = 0;
+  index_t peaks_s = CHUNK_SIZE;
   struct Statistics stat;
   free(*peaks_v);
-  *peaks_v = (index_t*) malloc(ps->data_s * sizeof(index_t));
-
+  *peaks_v = (index_t*) malloc(peaks_s * sizeof(index_t));
+  
   statistics(ps, 0, FULL, &stat);
   ps->stdev = stat.sd;
 
@@ -70,6 +72,10 @@ search_peaks(struct PeakSearch *ps, index_t **peaks_v)
     }
     else {
       if(in_cluster == 1) count++;
+      if(count > peaks_s) {
+        peaks_s += CHUNK_SIZE;
+        *peaks_v = (index_t*) realloc(*peaks_v, peaks_s * sizeof(index_t));
+      }
       max = 0.;
       in_cluster = 0;
     }

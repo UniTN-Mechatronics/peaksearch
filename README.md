@@ -28,9 +28,22 @@ Perform the search:
 
     u_int16_t count = search_peaks(&ps, &peaks);
 
+Remember to `free()` the `peaks` array at the end:
+
+    free(peaks);
 
 
-To Do
-=====
+Rationale
+=========
 
-- Dynamic allocation and resizing of the `peaks_v` vector.
+The algorithm is based on a moving window (holding `ps.win_size` points) over the 
+`ps.data_v` array, one element at a time. 
+
+At each iteration, the standard deviation of the moving window is compared to the 
+overall standard deviation. If their ratio exceeds `ps.sigmas`, then it is assumed 
+that the current window contains a peak.
+
+For each consecutive set of windows containing a peak, the index of the maximum 
+of the values is saved in the `peaks` array, which starts of size `CHUNK_SIZE`
+and then grows by multiples of this size when needed.
+
