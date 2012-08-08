@@ -18,6 +18,7 @@ struct PeakSearch {
   u_int16_t data_s;
   float sigmas;
   u_int16_t win_size;
+  float stdev;
 };
 
 struct Statistics {
@@ -72,7 +73,7 @@ search_peaks(struct PeakSearch *ps, u_int16_t **peaks_v)
   *peaks_v = (u_int16_t*) malloc(ps->data_s * sizeof(u_int16_t));
 
   statistics(ps, 0, FULL, &stat);
-  float overall_sd = stat.sd;
+  ps->stdev = stat.sd;
 
   u_int16_t i;
   char in_cluster = 0;
@@ -80,7 +81,7 @@ search_peaks(struct PeakSearch *ps, u_int16_t **peaks_v)
   for(i=0; i<ps->data_s-ps->win_size; i++) {
     statistics(ps, i, PARTIAL, &stat);
     float max = 0.;
-    if (stat.sd > ps->sigmas * overall_sd) {
+    if (stat.sd > ps->sigmas * ps->stdev) {
       if (stat.max > max) {
         (*peaks_v)[count] = stat.max_idx;
         max = stat.max;
@@ -105,16 +106,16 @@ int main(int argc, const char * argv[])
   ps.data_s = 20;
   ps.data_v = (float*) malloc(ps.data_s * sizeof(float));
   float d[20] = {1,1,2,1,2,30,32,8,2,1,1,1,2,1,2,2,1,3,1,1};
-  u_int16_t i;
   ps.data_v = d;
+  u_int16_t i;
 
   u_int16_t *peaks = (u_int16_t*) malloc(1 * sizeof(u_int16_t));
   u_int16_t count = search_peaks(&ps, &peaks);
 
+  printf("Overall st.dev: %f. Found %d peaks\n", ps.stdev, count);
   for (i=0; i<count; i++) {
-    printf("peaks %d = %d\n", i, peaks[i]);
+    printf("peak %d: point %d, value %f\n", i, peaks[i], ps.data_v[peaks[i]]);
   }
-  printf("Peaks: %d\n", count);
   return 0;
 }
 
