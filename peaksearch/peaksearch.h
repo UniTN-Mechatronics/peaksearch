@@ -6,8 +6,8 @@
 //  Copyright (c) 2012 Paolo Bosetti. All rights reserved.
 //
 
-#ifndef peaksearch_peaksearch_h
-#define peaksearch_peaksearch_h
+#ifndef PEAKSEARCH_H
+#define PEAKSEARCH_H
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -15,6 +15,11 @@
 
 // Whenever the output array gets full, it is expanded by this quantity:
 #define CHUNK_SIZE 10
+
+#ifdef __cplusplus
+extern "C"
+{
+#endif
 
 // Types for data and indexes:
 typedef float     data_t;
@@ -35,5 +40,8 @@ typedef struct {
 index_t
 search_peaks(PeakSearch *ps, index_t **peaks_v);
 
+#ifdef __cplusplus
+}
+#endif
 
 #endif
