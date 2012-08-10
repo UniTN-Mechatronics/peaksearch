@@ -10,15 +10,15 @@
 #define FULL    0
 #define PARTIAL 1
 
-struct Statistics {
+typedef struct {
   data_t  mean;
   data_t  sd;
   data_t  max;
   index_t max_idx;
-};
+} Statistics;
 
 data_t
-mean(struct PeakSearch *ps, const index_t start, const index_t end)
+mean(PeakSearch *ps, index_t const start, index_t const end)
 {
   data_t sum = 0.;
   index_t i, c;
@@ -29,7 +29,7 @@ mean(struct PeakSearch *ps, const index_t start, const index_t end)
 }
 
 void
-statistics(struct PeakSearch *ps, const index_t start, const char type, struct Statistics *stat)
+statistics(PeakSearch *ps, index_t const start, char const type, Statistics *stat)
 {
   data_t acc = 0.;
   index_t i, c, end;
@@ -54,11 +54,11 @@ statistics(struct PeakSearch *ps, const index_t start, const char type, struct S
 }
 
 index_t
-search_peaks(struct PeakSearch *ps, index_t **peaks_v)
+search_peaks(PeakSearch *ps, index_t **peaks_v)
 {
   index_t count = 0;
   index_t peaks_s = CHUNK_SIZE;
-  struct Statistics stat;
+  Statistics stat;
   free(*peaks_v);
   *peaks_v = (index_t*) malloc(peaks_s * sizeof(index_t));
   

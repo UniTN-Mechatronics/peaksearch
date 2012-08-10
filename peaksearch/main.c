@@ -17,7 +17,7 @@ int main(int argc, const char * argv[])
     1,1,2,1,2, 2, 1,3,1,1};
 
   // PeakSearch structure:
-  struct PeakSearch ps;
+  PeakSearch ps;
   ps.sigmas = 1.0;
   ps.win_size = 5;
   ps.data_s = sizeof(d) / sizeof(data_t);
