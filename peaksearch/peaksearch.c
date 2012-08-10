@@ -18,7 +18,9 @@ typedef struct {
 } Statistics;
 
 data_t
-mean(PeakSearch *ps, index_t const start, index_t const end)
+mean(PeakSearch       * ps,
+     index_t    const   start,
+     index_t    const   end)
 {
   data_t sum = 0.;
   index_t i, c;
@@ -29,7 +31,10 @@ mean(PeakSearch *ps, index_t const start, index_t const end)
 }
 
 void
-statistics(PeakSearch *ps, index_t const start, char const type, Statistics *stat)
+statistics(PeakSearch       * ps,
+           index_t    const   start,
+           char       const   type,
+           Statistics       * stat)
 {
   data_t acc = 0.;
   index_t i, c, end;
@@ -54,9 +59,10 @@ statistics(PeakSearch *ps, index_t const start, char const type, Statistics *sta
 }
 
 index_t
-search_peaks(PeakSearch *ps, index_t **peaks_v)
+search_peaks(PeakSearch  * ps,
+             index_t    ** peaks_v)
 {
-  index_t count = 0;
+  index_t count   = 0;
   index_t peaks_s = CHUNK_SIZE;
   Statistics stat;
   free(*peaks_v);
